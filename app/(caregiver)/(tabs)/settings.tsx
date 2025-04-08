@@ -2,17 +2,9 @@ import {View, Text, Dimensions} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 import {SafeAreaView} from "react-native-safe-area-context";
 import SettingsCard from "@/app/components/SettingsCard";
-import {supabase} from "@/utils/config";
-import {useRouter} from "expo-router";
 
 export default function SettingsPage() {
     const { height } = Dimensions.get("window");
-    const router = useRouter();
-    const logout = async () => {
-        supabase.auth?.signOut();
-        router.push("/splash");
-    }
-    
     return (
         <LinearGradient
             colors={["#435C6D", "#F9D6B1"]}
@@ -35,8 +27,6 @@ export default function SettingsPage() {
                     <SettingsCard title={"Privacy & Security"} icon={"shield-outline"} color="#432C81" />
                     <SettingsCard title={"Sound"} icon={"volume-high-outline"} color="#432C81" />
                     <SettingsCard title={"Language"} icon={"language-outline"} color="#432C81" />
-                    <SettingsCard onPress={() => logout() } title={"Logout"} icon={"exit"} color="#432C81" />
-
                 </View>
             </SafeAreaView>
         </LinearGradient>

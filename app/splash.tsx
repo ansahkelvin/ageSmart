@@ -32,10 +32,20 @@ const SplashScreen = () => {
                     </Text>
                 </View>
                 <View className={"mb-16 w-full flex-col gap-5"}>
-                    <TouchableOpacity onPress={() => router.push("/(auth)/login")}  className={"h-[48px] w-full rounded-2xl bg-[#435C6D] flex items-center justify-center "} >
+                    <TouchableOpacity onPress={() => router.push({
+                        pathname: "/(auth)/register",
+                        params: {
+                            "role": "user",
+                        }
+                    })}  className={"h-[48px] w-full rounded-2xl bg-[#435C6D] flex items-center justify-center "} >
                         <Text className={"text-lg text-white"}> Get Started </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity className={"h-[48px] w-full rounded-2xl bg-transparent border border-[#435C6D]  flex items-center justify-center "} >
+                    <TouchableOpacity onPress={() => router.push({
+                        pathname: "/(auth)/register",
+                        params: {
+                            "role" : "caregiver"
+                        }
+                    })} className={"h-[48px] w-full rounded-2xl bg-transparent border border-[#435C6D]  flex items-center justify-center "} >
                         <Text className={"text-lg text-[#435C6D]"}> Caregiver </Text>
                     </TouchableOpacity>
                 </View>

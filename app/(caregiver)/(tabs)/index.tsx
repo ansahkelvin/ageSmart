@@ -24,14 +24,14 @@ export default function Home() {
                 </View>
                 <View className="mt-10 flex gap-5">
                     <HomeCards 
+                        onPress={() => router.push("/(caregiver)/(tabs)/patients")}
+                        title={"Patients"} image={require("./../../../assets/images/Lifesavers Stoma.png")}/>
+                    <HomeCards
                         onPress={() => router.push("/task")}
                         title={"Task for the day"} image={require("./../../../assets/images/Lifesavers Stomach.png")}/>
                     <HomeCards
                         onPress={() => router.push("/reminder")}
                         title={"Medication Reminders"} image={require("./../../../assets/images/Lifesavers Electrocardiogram.png")}/>
-                    <HomeCards
-                        onPress={() => router.push("/task")}
-                        title={"Chatroom"} image={require("./../../../assets/images/Illustration.png")}/>
                     <HomeCards
                         onPress={() => router.push("/contacts")}
                         title={"Emergency Contact"} image={require("./../../../assets/images/Lifesavers Bust.png")}/>
