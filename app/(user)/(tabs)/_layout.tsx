@@ -27,7 +27,7 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="chat"
+                name="caregivers"
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ color }: { color: string }) => (

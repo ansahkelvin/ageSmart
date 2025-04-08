@@ -46,9 +46,9 @@ export default function Stats() {
             const { data, error } = await supabase
                 .from('patient_caretaker')
                 .select(`
-        patient_id,
-        profiles!patient_id(id, name, email)
-      `)
+                    patient_id,
+                    profiles!patient_id(id, name, email)
+                  `)
                 .eq('caretaker_id', caretakerId);
 
             if (error) throw error;
@@ -218,7 +218,7 @@ export default function Stats() {
                     visible={modalVisible}
                     onRequestClose={() => setModalVisible(false)}
                 >
-                    <View className="flex-1 justify-end bg-black bg-opacity-50">
+                    <View className="flex-1 justify-end bg-gray-200 bg-opacity-50">
                         <View className="bg-white rounded-t-3xl p-6 h-2/3">
                             <View className="flex-row justify-between items-center mb-6">
                                 <Text className="text-xl font-bold text-gray-800">Add Patient</Text>

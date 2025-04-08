@@ -1,13 +1,61 @@
-import {Dimensions, View, Text, TouchableOpacity} from "react-native";
+import {Dimensions, View, Text, TouchableOpacity, Alert} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 import {SafeAreaView} from "react-native-safe-area-context";
 import HomeCards from "@/app/components/HomeCards";
 import {Ionicons} from "@expo/vector-icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { router } from "expo-router";
+import {supabase} from "@/utils/config";
 
+interface Tasks {
+    id: string;
+    description: string;
+    completed: boolean;
+}
 export default function TaskPage() {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const [tasks, setTasks] = useState<Tasks[] | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    const updateTask = async (task: Tasks) => {
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user?.id) {
+            console.error("No authenticated user found");
+            return;
+        }
+
+        const { data, error } = await supabase
+            .from("tasks")
+            .update({ completed: true }) 
+            .eq("id", task.id)
+            .eq("user", user.id)
+            .select();
+
+        if (error) {
+            console.error("Error updating task:", error.message);
+            return;
+        }
+
+        if (data) {
+            fetchTasks();  // Refresh the task list
+        }
+    };
+    
+    const fetchTasks = async () => {
+        const { data: { user }  } = await supabase.auth.getUser();
+        const { data, error } = await supabase.from("tasks").select("*").eq("user",user?.id)
+        if(data) {
+            setTasks(data as Tasks[]);
+        }
+        if (error) {
+            Alert.alert(error.message);
+        }
+    }
+    
+    useEffect(() => {
+        fetchTasks();
+    }, [])
 
     const { height } = Dimensions.get("window");
     return (
@@ -40,6 +88,33 @@ export default function TaskPage() {
                         <Text className={`font-bold text-2xl ${currentIndex === 1 ? 'text-white' : 'text-black'}`}>Completed</Text>
                     </TouchableOpacity>
                 </View>
+                {
+                    currentIndex === 0 ? <View>
+                        {tasks ? tasks.filter((task) => !task.completed).map((task: Tasks) => (
+                            <View key={task.id} className="flex-row items-center gap-x-3 bg-[#EDECF4] py-8 px-3 rounded-2xl">
+                                <Ionicons
+                                    onPress={async ()=> { await updateTask(task)}}
+                                    name={task.completed ? "checkmark-circle" : "ellipse-outline"}
+                                    size={24}
+                                    color={task.completed ? "#4CAF50" : "#757575"}
+                                />
+                                <Text className="text-[#432C81] font-semibold">{task.description}</Text>
+                            </View>
+                        )) : null }
+                    </View> : <View>
+                        {tasks?.filter((task => task.completed === true))
+                            .map((task) => <View key={task.id} className="flex-row items-center gap-x-3 bg-[#EDECF4] py-8 px-3 rounded-2xl">
+                                <Ionicons
+                                    name={task.completed ? "checkmark-circle" : "ellipse-outline"}
+                                    size={24}
+                                    color={task.completed ? "#4CAF50" : "#757575"}
+                                />
+                                <Text className="text-[#432C81] font-semibold">{task.description}</Text>
+                            </View>
+                            )}
+                    </View>
+                }
+                
             </SafeAreaView>
         </LinearGradient>
     );

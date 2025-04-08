@@ -30,8 +30,8 @@ export default function Home() {
                         onPress={() => router.push("/reminder")}
                         title={"Medication Reminders"} image={require("./../../../assets/images/Lifesavers Electrocardiogram.png")}/>
                     <HomeCards
-                        onPress={() => router.push("/task")}
-                        title={"Chatroom"} image={require("./../../../assets/images/Illustration.png")}/>
+                        onPress={() => router.push("/caregivers")}
+                        title={"Caregivers"} image={require("./../../../assets/images/Illustration.png")}/>
                     <HomeCards
                         onPress={() => router.push("/contacts")}
                         title={"Emergency Contact"} image={require("./../../../assets/images/Lifesavers Bust.png")}/>

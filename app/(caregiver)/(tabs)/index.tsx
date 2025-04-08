@@ -27,13 +27,13 @@ export default function Home() {
                         onPress={() => router.push("/(caregiver)/(tabs)/patients")}
                         title={"Patients"} image={require("./../../../assets/images/Lifesavers Stoma.png")}/>
                     <HomeCards
-                        onPress={() => router.push("/task")}
+                        onPress={() => router.push("/(caregiver)/task")}
                         title={"Task for the day"} image={require("./../../../assets/images/Lifesavers Stomach.png")}/>
                     <HomeCards
-                        onPress={() => router.push("/reminder")}
+                        onPress={() => router.push("/(caregiver)/medical")}
                         title={"Medication Reminders"} image={require("./../../../assets/images/Lifesavers Electrocardiogram.png")}/>
                     <HomeCards
-                        onPress={() => router.push("/contacts")}
+                        onPress={() => router.push("/(caregiver)/contact")}
                         title={"Emergency Contact"} image={require("./../../../assets/images/Lifesavers Bust.png")}/>
 
                 </View>
