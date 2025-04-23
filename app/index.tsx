@@ -1,7 +1,8 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { View, ActivityIndicator } from "react-native";
-import {supabase} from "@/utils/config";
+import { View, ActivityIndicator, Alert } from "react-native";
+import { supabase } from "@/utils/config";
+import * as Location from 'expo-location';
 
 export default function Index() {
     const router = useRouter();
@@ -17,6 +18,59 @@ export default function Index() {
         return () => clearTimeout(timer);
     }, []);
 
+    // Function to request and get location
+    const getUserLocation = async () => {
+        try {
+            // Request location permissions
+            const { status } = await Location.requestForegroundPermissionsAsync();
+
+            if (status !== 'granted') {
+                Alert.alert(
+                    'Permission Denied',
+                    'Permission to access location was denied. Some features may be limited.',
+                    [{ text: 'OK' }]
+                );
+                return null;
+            }
+
+            // Get current position
+            const location = await Location.getCurrentPositionAsync({
+                accuracy: Location.Accuracy.Balanced,
+            });
+
+            return {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude
+            };
+        } catch (error) {
+            console.error('Error getting location:', error);
+            return null;
+        }
+    };
+
+    // Function to update user location in profiles table
+    const updateUserLocation = async (userId: string, locationData: { latitude: any; longitude: any; }) => {
+        if (!locationData) return;
+
+        try {
+            const { error } = await supabase
+                .from('profiles')
+                .update({
+                    latitude: locationData.latitude,
+                    longitude: locationData.longitude
+                })
+                .eq('id', userId);
+
+            if (error) {
+                throw error;
+            }
+
+            console.log('Location updated successfully');
+        } catch (error) {
+            console.error('Error updating location:', error);
+        }
+    };
+
     useEffect(() => {
         if (isReady) {
             // Check if user is logged in
@@ -26,6 +80,14 @@ export default function Index() {
                     const { data: { session } } = await supabase.auth.getSession();
 
                     if (session?.user) {
+                        // Get user location
+                        const locationData = await getUserLocation();
+
+                        // Update location in database if permissions granted
+                        if (locationData) {
+                            await updateUserLocation(session.user.id, locationData);
+                        }
+
                         // User is logged in, get their role from profiles table
                         const { data: profileData, error } = await supabase
                             .from('profiles')

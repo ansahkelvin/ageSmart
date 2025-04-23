@@ -8,7 +8,7 @@ interface HomeCardsProps {
 
 export default function HomeCards({ title, image, onPress }: HomeCardsProps) {
     return (
-        <TouchableOpacity onPress={onPress}  className="h-[116px] rounded-2xl w-full bg-white flex-row justify-between items-center p-4 shadow-sm">
+        <TouchableOpacity onPress={onPress}  className="h-[116px] mb-5 rounded-2xl w-full bg-white flex-row justify-between items-center p-4 shadow-sm">
             <Text className="text-2xl font-semibold text-[#432C81] flex-1">{title}</Text>
             <Image
                 source={image}

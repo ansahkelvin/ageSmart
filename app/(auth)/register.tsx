@@ -127,7 +127,7 @@ export default function RegisterPage() {
                             <TouchableOpacity
                                 onPress={() => router.push({
                                     pathname: "/(auth)/login",
-                                    params: { role: role || 'user' }
+                                    params: { role: role || 'caregiver' }
                                 })}
                                 className="flex items-center"
                             >

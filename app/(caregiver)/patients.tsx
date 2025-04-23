@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/utils/config";
+import {router} from "expo-router";
 
 // Define types for the data
 interface Profile {
@@ -170,6 +171,9 @@ export default function Stats() {
             style={{ flex: 1, height: height }}
             className="flex-1">
             <SafeAreaView className="px-6 relative flex-1">
+                <TouchableOpacity onPress={() => router.back()} className="mt-2">
+                    <Ionicons color={"#FFFFFF"} size={23} name={"arrow-back"} />
+                </TouchableOpacity>
                 <Text className="text-2xl font-bold text-white">Patients</Text>
                 <View className="flex items-center flex-row gap-x-2 bg-white py-6 px-4 rounded-lg mt-8">
                     <Ionicons name="search" size={24} color="#435C6D" />

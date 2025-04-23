@@ -1,4 +1,4 @@
-import {View, Text, Dimensions, Image} from "react-native";
+import {View, Text, Dimensions, Image, ScrollView} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 import {SafeAreaView} from "react-native-safe-area-context";
 import HomeCards from "@/app/components/HomeCards";
@@ -22,9 +22,11 @@ export default function Home() {
                         <Image className={"w-full h-full rounded-full"} source={{ uri: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=3280&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} alt={"Avatar"} />
                     </View>
                 </View>
-                <View className="mt-10 flex gap-5">
-                    <HomeCards 
-                        onPress={() => router.push("/(caregiver)/(tabs)/patients")}
+                <ScrollView
+                    className="mt-10 flex gap-5"
+                    showsVerticalScrollIndicator={false}>
+                    <HomeCards
+                        onPress={() => router.push("/(caregiver)/patients")}
                         title={"Patients"} image={require("./../../../assets/images/Lifesavers Stoma.png")}/>
                     <HomeCards
                         onPress={() => router.push("/(caregiver)/task")}
@@ -35,8 +37,10 @@ export default function Home() {
                     <HomeCards
                         onPress={() => router.push("/(caregiver)/contact")}
                         title={"Emergency Contact"} image={require("./../../../assets/images/Lifesavers Bust.png")}/>
-
-                </View>
+                    <HomeCards
+                        onPress={() => router.push("/(caregiver)/maps")}
+                        title={"Map"} image={require("./../../../assets/images/Lifesavers Electrocardiogram.png")}/>
+                </ScrollView>
             </SafeAreaView>
         </LinearGradient>
     )

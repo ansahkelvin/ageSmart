@@ -6,6 +6,10 @@ export default function UserLayout() {
             headerShown: false,
         }}>
             <Stack.Screen name="(tabs)"/>
+            <Stack.Screen name="forum/[id]" options={{
+                presentation: "card",
+                animation: "slide_from_right",
+            }}/>
         </Stack>
     );
 }
